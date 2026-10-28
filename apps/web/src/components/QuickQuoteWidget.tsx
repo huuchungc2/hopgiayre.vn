@@ -1,19 +1,56 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Calculator, Send, CheckCircle2, Sparkles, MessageCircle, ArrowRight } from 'lucide-react';
-import { apiPost } from '../api/client';
+import React, { useState, useEffect } from 'react';
+import { Calculator, Send, CheckCircle2, Sparkles, MessageCircle, ArrowRight, Tag } from 'lucide-react';
+import { apiGet, apiPost } from '../api/client';
 
 export function QuickQuoteWidget() {
-  const [length, setLength] = useState('20');
-  const [width, setWidth] = useState('15');
+  const [length, setLength] = useState('25');
+  const [width, setWidth] = useState('18');
   const [height, setHeight] = useState('10');
-  const [material, setMaterial] = useState('Carton sóng E (Đóng hàng, ship COD)');
+  const [material, setMaterial] = useState('Vỏ Hộp Quà Tết (Hộp cứng, khay yến/rượu)');
   const [quantity, setQuantity] = useState('500');
   const [phone, setPhone] = useState('');
   const [name, setName] = useState('');
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+
+  // Live price estimate state
+  const [priceData, setPriceData] = useState<{
+    unitPrice: number;
+    totalPrice: number;
+    formattedUnitPrice: string;
+    formattedTotalPrice: string;
+    materialName: string;
+    discountPercent?: number;
+    breakdown?: { sheetSize?: string; description?: string };
+  } | null>(null);
+
+  // Auto calculate when inputs change
+  useEffect(() => {
+    let active = true;
+    const fetchPrice = async () => {
+      try {
+        const res = await apiGet<any>('/pricing/calculate', {
+          material,
+          length,
+          width,
+          height,
+          quantity,
+        });
+        if (active && res) {
+          setPriceData(res);
+        }
+      } catch {
+        // Silently fallback if API error
+      }
+    };
+
+    fetchPrice();
+    return () => {
+      active = false;
+    };
+  }, [material, length, width, height, quantity]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,7 +61,11 @@ export function QuickQuoteWidget() {
     setStatus('submitting');
     setErrorMessage('');
 
-    const content = `[Yêu cầu báo giá nhanh]:\n- Kích thước: ${length} x ${width} x ${height} cm\n- Chất liệu: ${material}\n- Số lượng dự kiến: ${quantity} hộp\n- Khách hàng: ${name || 'Khách web'}`;
+    const estText = priceData
+      ? `\n- Giá ước tính: ${priceData.formattedUnitPrice}/hộp (Tổng: ${priceData.formattedTotalPrice})`
+      : '';
+
+    const content = `[Yêu cầu báo giá nhanh]:\n- Kích thước: ${length} x ${width} x ${height} cm\n- Chất liệu: ${material}\n- Số lượng dự kiến: ${quantity} hộp${estText}\n- Khách hàng: ${name || 'Khách web'}`;
 
     try {
       await apiPost('/user/sendinfo', {
@@ -33,8 +74,8 @@ export function QuickQuoteWidget() {
         content,
       });
       setStatus('success');
-    } catch (err: any) {
-      // Fallback: If API returns error or fails, open Zalo with prefilled text
+    } catch {
+      // Fallback: If API returns error, open Zalo with prefilled text
       const zaloUrl = `https://zalo.me/0985363679?text=${encodeURIComponent(content + `\nSĐT liên hệ: ${phone}`)}`;
       window.open(zaloUrl, '_blank');
       setStatus('success');
@@ -42,26 +83,29 @@ export function QuickQuoteWidget() {
   };
 
   const directZalo = () => {
-    const text = `Chào xưởng HopGiayRe.vn, mình cần tư vấn và báo giá hộp:\n- Kích thước: ${length}x${width}x${height} cm\n- Chất liệu: ${material}\n- Số lượng: ${quantity} hộp`;
+    const estText = priceData
+      ? `\n- Giá tham khảo: ${priceData.formattedUnitPrice}/hộp`
+      : '';
+    const text = `Chào xưởng HopGiayRe.vn, mình cần tư vấn và báo giá hộp:\n- Kích thước: ${length}x${width}x${height} cm\n- Chất liệu: ${material}\n- Số lượng: ${quantity} hộp${estText}`;
     window.open(`https://zalo.me/0985363679?text=${encodeURIComponent(text)}`, '_blank');
   };
 
   return (
     <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 shadow-sm relative overflow-hidden">
       {/* Top accent badge */}
-      <div className="absolute top-0 right-0 bg-emerald-600 text-white text-[11px] font-semibold px-3.5 py-1 rounded-bl-xl uppercase tracking-wider flex items-center gap-1">
-        <Sparkles className="w-3 h-3 text-emerald-200" />
-        Báo giá trong 5 phút
+      <div className="absolute top-0 right-0 bg-red-600 text-white text-[11px] font-bold px-3.5 py-1 rounded-bl-xl uppercase tracking-wider flex items-center gap-1 shadow-sm">
+        <Sparkles className="w-3 h-3 text-amber-300" />
+        Báo giá tự động 5s
       </div>
 
-      <div className="flex items-center gap-2.5 mb-2">
+      <div className="flex items-center gap-2.5 mb-1.5">
         <div className="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600">
           <Calculator className="w-4 h-4" />
         </div>
         <h2 className="text-lg font-bold text-slate-900 tracking-tight">Tính Giá In Hộp Theo Kích Thước</h2>
       </div>
-      <p className="text-xs text-slate-500 mb-5">
-        Nhập số đo phủ bì hộp (Dài x Rộng x Cao) để nhận bảng giá sỉ tốt nhất.
+      <p className="text-xs text-slate-500 mb-4">
+        Nhập số đo phủ bì hộp (Dài x Rộng x Cao) để nhận giá xuất xưởng tức thì.
       </p>
 
       {status === 'success' ? (
@@ -79,7 +123,7 @@ export function QuickQuoteWidget() {
           </button>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3.5">
           {/* Dimension Grid */}
           <div>
             <label className="block text-xs font-semibold text-slate-700 mb-1.5">
@@ -136,11 +180,12 @@ export function QuickQuoteWidget() {
                 onChange={(e) => setMaterial(e.target.value)}
                 className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-2 text-xs font-medium text-slate-900 outline-none focus:bg-white focus:border-emerald-500"
               >
+                <option value="Vỏ Hộp Quà Tết (Hộp cứng, khay yến/rượu)">🧧 Vỏ Hộp Quà Tết (Bán chạy)</option>
+                <option value="Hộp cứng cao cấp (Quà tặng, mỹ phẩm)">Hộp Cứng Quà Tặng (Âm dương)</option>
                 <option value="Carton sóng E (Đóng hàng, ship COD)">Carton sóng E (Ship COD)</option>
-                <option value="Carton sóng B/C (Chịu lực cao)">Carton sóng B/C (Nặng)</option>
-                <option value="Hộp cứng cao cấp (Quà tặng, mỹ phẩm)">Hộp cứng cao cấp</option>
-                <option value="Hộp giấy Kraft bảo vệ môi trường">Hộp giấy Kraft</option>
-                <option value="Hộp giấy Ivory/Duplex in Offset">Hộp Ivory / Duplex</option>
+                <option value="Carton sóng B/C (Chịu lực cao)">Carton sóng B/C (Chịu lực)</option>
+                <option value="Hộp giấy Kraft bảo vệ môi trường">Hộp giấy Kraft thân thiện</option>
+                <option value="Hộp giấy Ivory/Duplex in Offset">Hộp Ivory / Duplex in Offset</option>
               </select>
             </div>
 
@@ -151,14 +196,40 @@ export function QuickQuoteWidget() {
                 onChange={(e) => setQuantity(e.target.value)}
                 className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-2 text-xs font-medium text-slate-900 outline-none focus:bg-white focus:border-emerald-500"
               >
-                <option value="100">100 hộp (SL ít)</option>
+                <option value="100">100 hộp (Số lượng ít)</option>
                 <option value="300">300 hộp</option>
-                <option value="500">500 hộp (Phổ biến)</option>
-                <option value="1000">1.000 hộp (Giá tốt)</option>
-                <option value="2000">2.000 hộp trở lên (Giá sỉ)</option>
+                <option value="500">500 hộp (Tiết kiệm)</option>
+                <option value="1000">1.000 hộp (Giá tối ưu nhất)</option>
+                <option value="2000">2.000 hộp trở lên (Giá sỉ xưởng)</option>
               </select>
             </div>
           </div>
+
+          {/* Live Calculated Price Banner */}
+          {priceData && (
+            <div className="bg-emerald-50/80 border border-emerald-200/80 rounded-xl p-3 flex items-center justify-between gap-3">
+              <div>
+                <div className="text-[11px] font-semibold text-emerald-800 flex items-center gap-1">
+                  <Tag className="w-3 h-3 text-emerald-600" />
+                  <span>Đơn giá xuất xưởng dự kiến:</span>
+                </div>
+                <div className="flex items-baseline gap-2 mt-0.5">
+                  <span className="text-base sm:text-lg font-black text-emerald-700">
+                    {priceData.formattedUnitPrice}
+                    <span className="text-xs font-normal text-slate-500">/hộp</span>
+                  </span>
+                  <span className="text-xs text-slate-500">
+                    (Tổng: <strong className="text-slate-800">{priceData.formattedTotalPrice}</strong>)
+                  </span>
+                </div>
+              </div>
+              {priceData.discountPercent ? (
+                <span className="bg-emerald-600 text-white text-[10px] font-bold px-2 py-1 rounded-md shrink-0">
+                  Giảm {priceData.discountPercent}%
+                </span>
+              ) : null}
+            </div>
+          )}
 
           {/* Contact Fields */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -192,14 +263,14 @@ export function QuickQuoteWidget() {
           )}
 
           {/* Buttons */}
-          <div className="pt-2 flex flex-col sm:flex-row gap-2.5">
+          <div className="pt-1 flex flex-col sm:flex-row gap-2.5">
             <button
               type="submit"
               disabled={status === 'submitting'}
               className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs py-2.5 px-4 rounded-xl shadow-sm transition-all flex items-center justify-center gap-1.5 active:scale-95 disabled:opacity-50"
             >
               <Send className="w-3.5 h-3.5" />
-              <span>{status === 'submitting' ? 'Đang gửi...' : 'Nhận Báo Giá Trong 5 Phút'}</span>
+              <span>{status === 'submitting' ? 'Đang gửi...' : 'Nhận Báo Giá & Mẫu 3D'}</span>
             </button>
 
             <button
@@ -215,12 +286,12 @@ export function QuickQuoteWidget() {
       )}
 
       {/* Trust Footer */}
-      <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+      <div className="mt-3.5 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
         <span className="flex items-center gap-1">
           <CheckCircle2 className="w-3 h-3 text-emerald-600" /> Miễn phí thiết kế 3D
         </span>
         <span className="flex items-center gap-1">
-          <CheckCircle2 className="w-3 h-3 text-emerald-600" /> In mẫu trước khi sản xuất
+          <CheckCircle2 className="w-3 h-3 text-emerald-600" /> Giá tính từ công thức xưởng
         </span>
       </div>
     </div>

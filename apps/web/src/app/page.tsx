@@ -60,6 +60,10 @@ export default async function HomePage() {
   const validCategories = data.categories.filter((cat) => Boolean(cat.image && cat.image.trim() !== ''));
   const displayCategories = validCategories.slice(0, 8);
 
+  // Filter Tet Gift Box products
+  const tetProducts = data.products.filter((p) => /tết|tet/i.test(p.name));
+  const generalProducts = data.products.filter((p) => !/tết|tet/i.test(p.name));
+
   return (
     <div className="space-y-12 sm:space-y-16 pb-16">
       {/* Hero Showcase Section */}
@@ -170,16 +174,49 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Dedicated Tet Gift Box Section (Vỏ Hộp Quà Tết Doanh Nghiệp) */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="bg-gradient-to-br from-red-50 via-amber-50/40 to-white border border-red-200/80 rounded-3xl p-6 sm:p-8 shadow-card relative overflow-hidden">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+            <div>
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-red-600 bg-red-100/80 px-3 py-1 rounded-full">
+                <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                Dòng Sản Phẩm Chủ Lực Doanh Nghiệp
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2 tracking-tight">
+                Xưởng Sản Xuất Vỏ Hộp Quà Tết 2026 Giá Tận Gốc
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl leading-relaxed">
+                Chuyên gia công vỏ hộp quà tết âm dương, hộp nắp nam châm, hộp đựng yến sào, rượu vang và hạt dinh dưỡng. Nhận đơn gấp từ 100 hộp, ép kim logo doanh nghiệp theo yêu cầu.
+              </p>
+            </div>
+            <Link
+              href="/danh-muc/in-hop-qua-tet-73.html"
+              className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-5 py-2.5 rounded-xl shadow-sm transition-all shrink-0 active:scale-95"
+            >
+              <span>Xem Tất Cả Mẫu Hộp Tết</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+            {(tetProducts.length > 0 ? tetProducts : data.products.slice(0, 4)).map((product) => (
+              <ProductCard key={product.pid} product={product} />
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Featured Products Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
           <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-red-600 inline-flex items-center gap-1">
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 inline-flex items-center gap-1">
               <Flame className="w-3.5 h-3.5 fill-current" />
-              Mẫu Hộp Nổi Bật
+              Mẫu Hộp Tiêu Biểu Khác
             </span>
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mt-1 tracking-tight">
-              Sản Phẩm Đang Được Đặt Hàng Nhiều Nhất
+              Hộp Carton Ship COD & Hộp Giấy Mỹ Phẩm
             </h2>
           </div>
           <Link
@@ -192,7 +229,7 @@ export default async function HomePage() {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
-          {data.products.map((product) => (
+          {(generalProducts.length > 0 ? generalProducts : data.products).slice(0, 8).map((product) => (
             <ProductCard key={product.pid} product={product} />
           ))}
         </div>

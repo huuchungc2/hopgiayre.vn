@@ -135,9 +135,21 @@ export function Header({ categories = [] }: HeaderProps) {
             {/* 1. Trang Chủ */}
             <Link
               href="/"
-              className="px-3.5 py-2 rounded-lg hover:text-emerald-700 hover:bg-emerald-50 transition-colors font-bold text-emerald-700"
+              className="px-3 py-2 rounded-lg hover:text-emerald-700 hover:bg-emerald-50 transition-colors font-bold text-emerald-700"
             >
               Trang Chủ
+            </Link>
+
+            {/* Vỏ Hộp Quà Tết (HOT) */}
+            <Link
+              href="/danh-muc/in-hop-qua-tet-73.html"
+              className="flex items-center gap-1 px-3 py-2 rounded-lg text-red-600 hover:text-red-700 hover:bg-red-50 font-bold transition-colors shrink-0"
+            >
+              <span className="relative flex h-2 w-2 mr-0.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
+              </span>
+              <span>🧧 Vỏ Hộp Quà Tết</span>
             </Link>
 
             {/* 2. Hộp Giấy & Carton (Dropdown) */}

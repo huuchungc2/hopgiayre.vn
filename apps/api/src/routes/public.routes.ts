@@ -5,6 +5,8 @@ import { mapBanner, mapBlog, mapCategory, mapProduct } from '../mappers.js';
 import { one, pool, query } from '../db.js';
 import { badRequest, clampInt, cleanString, cleanText, isEmail, isVietnamPhone, toInt } from '../utils.js';
 
+import { calculateBoxPrice } from '../pricing-calculator.js';
+
 const nowUnix = () => Math.floor(Date.now() / 1000).toString();
 
 async function productCategories(ids: number[]): Promise<Map<number, any[]>> {
@@ -194,6 +196,20 @@ export function createPublicRouter(): Router {
       if (!isEmail(email)) badRequest('Email chưa đúng');
       const [result] = await pool.execute<ResultSetHeader>('INSERT INTO email_reg (email, datetime) VALUES (?, ?)', [email, nowUnix()]);
       res.json({ error: result.insertId > 0 ? 0 : -1, id: result.insertId, message: 'Đã đăng ký email' });
+    } catch (error) { next(error); }
+  });
+
+  router.all('/pricing/calculate', async (req, res, next) => {
+    try {
+      const data = req.method === 'POST' ? req.body : req.query;
+      const result = calculateBoxPrice({
+        material: String(data.material || ''),
+        length: Number(data.length) || 20,
+        width: Number(data.width) || 15,
+        height: Number(data.height) || 10,
+        quantity: Number(data.quantity) || 500,
+      });
+      res.json(result);
     } catch (error) { next(error); }
   });
 
