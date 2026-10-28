@@ -1,14 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Calculator, Send, CheckCircle2, Sparkles, MessageCircle } from 'lucide-react';
+import { Calculator, Send, CheckCircle2, Sparkles, MessageCircle, ArrowRight } from 'lucide-react';
 import { apiPost } from '../api/client';
 
 export function QuickQuoteWidget() {
   const [length, setLength] = useState('20');
   const [width, setWidth] = useState('15');
   const [height, setHeight] = useState('10');
-  const [material, setMaterial] = useState('Carton sóng E (Đóng hàng)');
+  const [material, setMaterial] = useState('Carton sóng E (Đóng hàng, ship COD)');
   const [quantity, setQuantity] = useState('500');
   const [phone, setPhone] = useState('');
   const [name, setName] = useState('');
@@ -47,77 +47,82 @@ export function QuickQuoteWidget() {
   };
 
   return (
-    <div className="bg-white border-2 border-[#EADBC8] rounded-3xl p-6 sm:p-8 shadow-soft relative overflow-hidden">
-      {/* Decorative craft accent badge */}
-      <div className="absolute top-0 right-0 bg-[#A35424] text-white text-[11px] font-bold px-4 py-1 rounded-bl-2xl uppercase tracking-wider flex items-center gap-1">
-        <Sparkles className="w-3 h-3 text-[#F4C76B]" />
+    <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 shadow-sm relative overflow-hidden">
+      {/* Top accent badge */}
+      <div className="absolute top-0 right-0 bg-emerald-600 text-white text-[11px] font-semibold px-3.5 py-1 rounded-bl-xl uppercase tracking-wider flex items-center gap-1">
+        <Sparkles className="w-3 h-3 text-emerald-200" />
         Báo giá trong 5 phút
       </div>
 
       <div className="flex items-center gap-2.5 mb-2">
-        <div className="w-8 h-8 rounded-lg bg-[#FAF7F2] border border-[#DAC0A3] flex items-center justify-center text-[#A35424]">
+        <div className="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600">
           <Calculator className="w-4 h-4" />
         </div>
-        <h3 className="text-xl font-black text-[#1A1412]">Ước Tính & Nhận Báo Giá Hộp</h3>
+        <h2 className="text-lg font-bold text-slate-900 tracking-tight">Tính Giá In Hộp Theo Kích Thước</h2>
       </div>
-      <p className="text-xs text-[#946C45] mb-6">
-        Nhập quy cách hộp giấy của bạn, xưởng sẽ phản hồi chi phí in và sản xuất tốt nhất ngay lập tức.
+      <p className="text-xs text-slate-500 mb-5">
+        Nhập số đo phủ bì hộp (Dài x Rộng x Cao) để nhận bảng giá sỉ tốt nhất.
       </p>
 
       {status === 'success' ? (
-        <div className="bg-[#FAF7F2] border border-emerald-300 rounded-2xl p-6 text-center space-y-3">
-          <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto" />
-          <h4 className="font-extrabold text-[#1A1412] text-base">Đã Gửi Yêu Cầu Báo Giá Thành Công!</h4>
-          <p className="text-xs text-[#5C3C1E] leading-relaxed">
-            Chuyên viên xưởng HopGiayRe sẽ liên hệ qua SĐT/Zalo <span className="font-bold text-[#A35424]">{phone}</span> trong vòng 5 - 15 phút.
+        <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-5 text-center space-y-3 my-4">
+          <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto" />
+          <h4 className="font-bold text-emerald-950 text-base">Đã Gửi Yêu Cầu Thành Công!</h4>
+          <p className="text-xs text-emerald-800">
+            Chuyên viên tư vấn của xưởng sẽ liên hệ lại qua SĐT/Zalo <strong>{phone}</strong> trong vòng 5 phút để gửi thiết kế 3D và báo giá chi tiết.
           </p>
           <button
             onClick={() => setStatus('idle')}
-            className="text-xs font-bold text-[#A35424] hover:underline pt-2 block mx-auto"
+            className="text-xs font-semibold text-emerald-700 underline pt-2"
           >
-            Gửi yêu cầu hộp khác
+            Gửi thêm yêu cầu kích thước khác
           </button>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Dimension Inputs */}
+          {/* Dimension Grid */}
           <div>
-            <label className="block text-xs font-bold text-[#5C3C1E] mb-1.5">
-              1. Kích thước mong muốn (Dài x Rộng x Cao cm)
+            <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+              Kích thước hộp (Dài x Rộng x Cao cm):
             </label>
             <div className="grid grid-cols-3 gap-2">
-              <div>
+              <div className="relative">
                 <input
                   type="number"
+                  min="1"
                   value={length}
                   onChange={(e) => setLength(e.target.value)}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-2 text-xs font-semibold text-slate-900 outline-none focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10"
                   placeholder="Dài"
-                  className="w-full bg-[#FAF7F2] border border-[#DAC0A3] focus:border-[#A35424] rounded-xl px-3 py-2 text-sm text-center font-bold text-[#1A1412] outline-none"
                   required
                 />
-                <span className="block text-[10px] text-center text-[#946C45] mt-0.5">Dài (cm)</span>
+                <span className="absolute right-2 top-2 text-[10px] text-slate-400 font-medium">cm</span>
               </div>
-              <div>
+
+              <div className="relative">
                 <input
                   type="number"
+                  min="1"
                   value={width}
                   onChange={(e) => setWidth(e.target.value)}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-2 text-xs font-semibold text-slate-900 outline-none focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10"
                   placeholder="Rộng"
-                  className="w-full bg-[#FAF7F2] border border-[#DAC0A3] focus:border-[#A35424] rounded-xl px-3 py-2 text-sm text-center font-bold text-[#1A1412] outline-none"
                   required
                 />
-                <span className="block text-[10px] text-center text-[#946C45] mt-0.5">Rộng (cm)</span>
+                <span className="absolute right-2 top-2 text-[10px] text-slate-400 font-medium">cm</span>
               </div>
-              <div>
+
+              <div className="relative">
                 <input
                   type="number"
+                  min="1"
                   value={height}
                   onChange={(e) => setHeight(e.target.value)}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-2 text-xs font-semibold text-slate-900 outline-none focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10"
                   placeholder="Cao"
-                  className="w-full bg-[#FAF7F2] border border-[#DAC0A3] focus:border-[#A35424] rounded-xl px-3 py-2 text-sm text-center font-bold text-[#1A1412] outline-none"
                   required
                 />
-                <span className="block text-[10px] text-center text-[#946C45] mt-0.5">Cao (cm)</span>
+                <span className="absolute right-2 top-2 text-[10px] text-slate-400 font-medium">cm</span>
               </div>
             </div>
           </div>
@@ -125,88 +130,99 @@ export function QuickQuoteWidget() {
           {/* Material & Quantity */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-bold text-[#5C3C1E] mb-1">2. Loại hộp & chất liệu</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Loại hộp:</label>
               <select
                 value={material}
                 onChange={(e) => setMaterial(e.target.value)}
-                className="w-full bg-[#FAF7F2] border border-[#DAC0A3] focus:border-[#A35424] rounded-xl px-3 py-2 text-xs font-medium text-[#1A1412] outline-none"
+                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-2 text-xs font-medium text-slate-900 outline-none focus:bg-white focus:border-emerald-500"
               >
-                <option value="Carton sóng E (Đóng hàng COD)">Carton sóng E (Đóng hàng COD)</option>
-                <option value="Carton sóng B/C (Chịu lực cao)">Carton sóng B/C (Chịu lực cao)</option>
-                <option value="Hộp cứng cao cấp (Âm dương, quà tặng)">Hộp cứng cao cấp (Quà tặng, yến)</option>
-                <option value="Giấy Kraft nâu mộc vintage">Giấy Kraft nâu mộc (Môi trường)</option>
-                <option value="Giấy Ivory/Duplex (Bánh, mỹ phẩm)">Giấy Ivory/Duplex (Mỹ phẩm, bánh)</option>
-                <option value="Túi giấy quai xách">Túi giấy quai xách</option>
+                <option value="Carton sóng E (Đóng hàng, ship COD)">Carton sóng E (Ship COD)</option>
+                <option value="Carton sóng B/C (Chịu lực cao)">Carton sóng B/C (Nặng)</option>
+                <option value="Hộp cứng cao cấp (Quà tặng, mỹ phẩm)">Hộp cứng cao cấp</option>
+                <option value="Hộp giấy Kraft bảo vệ môi trường">Hộp giấy Kraft</option>
+                <option value="Hộp giấy Ivory/Duplex in Offset">Hộp Ivory / Duplex</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-[#5C3C1E] mb-1">3. Số lượng in dự kiến</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Số lượng dự kiến:</label>
               <select
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
-                className="w-full bg-[#FAF7F2] border border-[#DAC0A3] focus:border-[#A35424] rounded-xl px-3 py-2 text-xs font-medium text-[#1A1412] outline-none"
+                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-2 text-xs font-medium text-slate-900 outline-none focus:bg-white focus:border-emerald-500"
               >
-                <option value="100 - 300">100 - 300 hộp (Số lượng ít)</option>
+                <option value="100">100 hộp (SL ít)</option>
+                <option value="300">300 hộp</option>
                 <option value="500">500 hộp (Phổ biến)</option>
-                <option value="1.000">1.000 hộp (Giá tối ưu)</option>
-                <option value="2.000 - 5.000">2.000 - 5.000 hộp</option>
-                <option value="10.000+">10.000+ hộp (Giá sỉ xưởng)</option>
+                <option value="1000">1.000 hộp (Giá tốt)</option>
+                <option value="2000">2.000 hộp trở lên (Giá sỉ)</option>
               </select>
             </div>
           </div>
 
-          {/* Contact Input */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          {/* Contact Fields */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-bold text-[#5C3C1E] mb-1">Tên của bạn (tuỳ chọn)</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Tên khách hàng:</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Anh/Chị..."
-                className="w-full bg-[#FAF7F2] border border-[#DAC0A3] rounded-xl px-3 py-2 text-xs text-[#1A1412] outline-none"
+                placeholder="Anh / Chị..."
+                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-2 text-xs font-medium text-slate-900 outline-none focus:bg-white focus:border-emerald-500"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-[#5C3C1E] mb-1">
-                Số điện thoại / Zalo <span className="text-red-500">*</span>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
+                Số ĐT / Zalo <span className="text-red-500">*</span>:
               </label>
               <input
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="0985 xxx xxx"
-                className="w-full bg-[#FAF7F2] border border-[#DAC0A3] focus:border-[#A35424] rounded-xl px-3 py-2 text-xs font-bold text-[#1A1412] outline-none"
+                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-2 text-xs font-semibold text-slate-900 outline-none focus:bg-white focus:border-emerald-500"
                 required
               />
             </div>
           </div>
 
-          {errorMessage && <p className="text-xs text-red-500 font-medium">{errorMessage}</p>}
+          {errorMessage && (
+            <p className="text-xs text-red-600 font-medium">{errorMessage}</p>
+          )}
 
-          {/* Action Buttons */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
+          {/* Buttons */}
+          <div className="pt-2 flex flex-col sm:flex-row gap-2.5">
             <button
               type="submit"
               disabled={status === 'submitting'}
-              className="inline-flex items-center justify-center gap-2 bg-[#A35424] hover:bg-[#713616] text-white text-xs font-extrabold py-3 px-4 rounded-xl shadow-md transition-all active:scale-95 disabled:opacity-50"
+              className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs py-2.5 px-4 rounded-xl shadow-sm transition-all flex items-center justify-center gap-1.5 active:scale-95 disabled:opacity-50"
             >
               <Send className="w-3.5 h-3.5" />
-              {status === 'submitting' ? 'Đang gửi...' : 'Nhận Báo Giá Nhanh'}
+              <span>{status === 'submitting' ? 'Đang gửi...' : 'Nhận Báo Giá Trong 5 Phút'}</span>
             </button>
 
             <button
               type="button"
               onClick={directZalo}
-              className="inline-flex items-center justify-center gap-2 bg-[#0068FF] hover:bg-[#0055d4] text-white text-xs font-extrabold py-3 px-4 rounded-xl shadow-md transition-all active:scale-95"
+              className="bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold py-2.5 px-4 rounded-xl transition-colors flex items-center justify-center gap-1.5"
             >
-              <MessageCircle className="w-3.5 h-3.5" />
-              Báo Giá Qua Zalo
+              <MessageCircle className="w-3.5 h-3.5 text-blue-600" />
+              <span>Chat Zalo</span>
             </button>
           </div>
         </form>
       )}
+
+      {/* Trust Footer */}
+      <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+        <span className="flex items-center gap-1">
+          <CheckCircle2 className="w-3 h-3 text-emerald-600" /> Miễn phí thiết kế 3D
+        </span>
+        <span className="flex items-center gap-1">
+          <CheckCircle2 className="w-3 h-3 text-emerald-600" /> In mẫu trước khi sản xuất
+        </span>
+      </div>
     </div>
   );
 }

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X, Phone, Search, Calculator, ShieldCheck, Sparkles, MessageCircle } from 'lucide-react';
+import { Menu, X, Phone, Search, Calculator, ShieldCheck, Sparkles, MessageCircle, PackageCheck } from 'lucide-react';
 import type { Category } from '../types/domain';
 import { categoryHref } from '../utils/format';
 
@@ -22,36 +22,36 @@ export function Header({ categories = [] }: HeaderProps) {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-[#FAF7F2]/95 backdrop-blur-md border-b border-[#EADBC8] transition-all">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 transition-all">
       {/* Top Banner */}
-      <div className="bg-[#1A1412] text-[#FAF7F2] text-xs py-2 px-4 sm:px-6">
+      <div className="bg-slate-900 text-slate-300 text-xs py-2 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
           <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1.5 font-medium text-[#DAC0A3]">
-              <Sparkles className="w-3.5 h-3.5 text-[#F4C76B]" />
+            <span className="flex items-center gap-1.5 font-medium text-emerald-400">
+              <Sparkles className="w-3.5 h-3.5" />
               Xưởng in trực tiếp - Giá rẻ hơn 20% thị trường
             </span>
-            <span className="hidden md:inline-block text-[#B89774]">•</span>
-            <span className="hidden md:flex items-center gap-1 text-[#DAC0A3]">
+            <span className="hidden md:inline-block text-slate-600">•</span>
+            <span className="hidden md:flex items-center gap-1 text-slate-300">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
               Cam kết đổi trả 100% nếu lỗi in
             </span>
           </div>
 
-          <div className="flex items-center gap-4 font-semibold">
+          <div className="flex items-center gap-4 font-medium text-slate-300">
             <a
               href="tel:0985363679"
-              className="flex items-center gap-1.5 hover:text-[#F4C76B] transition-colors"
+              className="flex items-center gap-1.5 hover:text-white transition-colors"
             >
-              <Phone className="w-3.5 h-3.5 text-[#F4C76B]" />
-              <span>Hotline: 0985 363 679</span>
+              <Phone className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Hotline: <strong className="text-white font-semibold">0985 363 679</strong></span>
             </a>
-            <span className="text-[#B89774]">•</span>
+            <span className="text-slate-600">•</span>
             <a
               href="https://zalo.me/0985363679"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 text-[#F4C76B] hover:underline"
+              className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300 font-semibold"
             >
               <MessageCircle className="w-3.5 h-3.5" />
               Zalo Xưởng
@@ -63,16 +63,16 @@ export function Header({ categories = [] }: HeaderProps) {
       {/* Main Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 shrink-0 group">
-          <div className="w-10 h-10 rounded-xl bg-[#A35424] flex items-center justify-center text-white font-extrabold text-xl shadow-md group-hover:scale-105 transition-transform">
+        <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white font-black text-xl shadow-sm group-hover:scale-105 transition-transform">
             H
           </div>
           <div className="flex flex-col">
-            <span className="text-xl sm:text-2xl font-black tracking-tight text-[#1A1412] leading-none">
-              HopGiay<span className="text-[#A35424]">Re</span>.vn
+            <span className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 leading-none">
+              HopGiay<span className="text-emerald-600">Re</span>.vn
             </span>
-            <span className="text-[10px] tracking-wider text-[#946C45] font-semibold uppercase mt-0.5">
-              Bao Bì & Hộp Giấy Tận Xưởng
+            <span className="text-[10px] tracking-wider text-slate-500 font-semibold uppercase mt-0.5">
+              Xưởng Bao Bì & Hộp Giấy TP.HCM
             </span>
           </div>
         </Link>
@@ -85,12 +85,12 @@ export function Header({ categories = [] }: HeaderProps) {
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
               placeholder="Tìm hộp carton, hộp quà, túi giấy, kích thước..."
-              className="w-full bg-white border border-[#DAC0A3] focus:border-[#A35424] focus:ring-2 focus:ring-[#A35424]/20 rounded-full pl-11 pr-24 py-2 text-sm text-[#1A1412] placeholder-[#B89774] outline-none transition-all shadow-sm"
+              className="w-full bg-slate-50 border border-slate-200 focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 rounded-full pl-11 pr-24 py-2.5 text-sm text-slate-900 placeholder-slate-400 outline-none transition-all"
             />
-            <Search className="w-4 h-4 text-[#946C45] absolute left-4 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
             <button
               type="submit"
-              className="absolute right-1.5 top-1/2 -translate-y-1/2 bg-[#A35424] hover:bg-[#713616] text-white text-xs font-bold px-4 py-1.5 rounded-full transition-colors"
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-4 py-1.5 rounded-full transition-colors shadow-sm"
             >
               Tìm Kiếm
             </button>
@@ -101,16 +101,16 @@ export function Header({ categories = [] }: HeaderProps) {
         <div className="flex items-center gap-3">
           <Link
             href="/bao-gia"
-            className="hidden sm:inline-flex items-center gap-2 bg-[#A35424] hover:bg-[#713616] text-white text-sm font-bold px-5 py-2.5 rounded-full shadow-md hover:shadow-lg transition-all active:scale-95"
+            className="hidden sm:inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-5 py-2.5 rounded-full shadow-sm hover:shadow transition-all active:scale-95"
           >
-            <Calculator className="w-4 h-4 text-[#F4C76B]" />
+            <Calculator className="w-4 h-4" />
             <span>Báo Giá Nhanh</span>
           </Link>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-xl text-[#1A1412] hover:bg-[#F5EFE6] transition-colors md:hidden"
+            className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-colors md:hidden"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -119,29 +119,30 @@ export function Header({ categories = [] }: HeaderProps) {
       </div>
 
       {/* Navigation Bar (Desktop) */}
-      <nav className="hidden md:block border-t border-[#EADBC8]/70 bg-white/70">
+      <nav className="hidden md:block border-t border-slate-100 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex items-center gap-6 overflow-x-auto py-2.5 text-sm font-semibold text-[#5C3C1E] no-scrollbar">
-            <Link href="/" className="hover:text-[#A35424] whitespace-nowrap transition-colors">
+          <div className="flex items-center gap-6 overflow-x-auto py-2.5 text-sm font-medium text-slate-600 no-scrollbar">
+            <Link href="/" className="hover:text-emerald-600 whitespace-nowrap transition-colors font-semibold text-slate-900">
               Trang Chủ
             </Link>
-            <Link href="/san-pham" className="hover:text-[#A35424] whitespace-nowrap transition-colors">
+            <Link href="/san-pham" className="hover:text-emerald-600 whitespace-nowrap transition-colors">
               Tất Cả Sản Phẩm
             </Link>
             {categories.slice(0, 7).map((cat) => (
               <Link
                 key={cat.id}
                 href={categoryHref(cat)}
-                className="hover:text-[#A35424] whitespace-nowrap transition-colors"
+                className="hover:text-emerald-600 whitespace-nowrap transition-colors"
               >
                 {cat.name}
               </Link>
             ))}
-            <Link href="/tin-tuc" className="hover:text-[#A35424] whitespace-nowrap transition-colors">
-              Kinh Nghiệm & Cẩm Nang
+            <Link href="/tin-tuc" className="hover:text-emerald-600 whitespace-nowrap transition-colors">
+              Cẩm Nang In Ấn
             </Link>
-            <Link href="/bao-gia" className="hover:text-[#A35424] whitespace-nowrap transition-colors text-[#A35424]">
-              Báo Giá In
+            <Link href="/bao-gia" className="hover:text-emerald-600 whitespace-nowrap transition-colors text-emerald-600 font-semibold ml-auto flex items-center gap-1.5">
+              <PackageCheck className="w-4 h-4" />
+              Báo Giá Theo Yêu Cầu
             </Link>
           </div>
         </div>
@@ -149,7 +150,7 @@ export function Header({ categories = [] }: HeaderProps) {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-[#EADBC8] bg-white px-4 py-4 space-y-3 shadow-xl">
+        <div className="md:hidden border-t border-slate-200 bg-white px-4 py-4 space-y-3 shadow-xl">
           <form onSubmit={handleSearch} className="mb-4">
             <div className="relative">
               <input
@@ -157,17 +158,17 @@ export function Header({ categories = [] }: HeaderProps) {
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
                 placeholder="Tìm sản phẩm hộp giấy..."
-                className="w-full bg-[#FAF7F2] border border-[#DAC0A3] rounded-lg pl-10 pr-4 py-2 text-sm text-[#1A1412] outline-none"
+                className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-10 pr-4 py-2 text-sm text-slate-900 outline-none focus:border-emerald-500"
               />
-              <Search className="w-4 h-4 text-[#946C45] absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             </div>
           </form>
 
-          <div className="flex flex-col space-y-2 text-sm font-semibold text-[#3D2713]">
-            <Link href="/" onClick={() => setMobileMenuOpen(false)} className="py-1.5 hover:text-[#A35424]">
+          <div className="flex flex-col space-y-1 text-sm font-medium text-slate-700">
+            <Link href="/" onClick={() => setMobileMenuOpen(false)} className="py-2 px-3 rounded-lg hover:bg-slate-50 hover:text-emerald-600">
               Trang Chủ
             </Link>
-            <Link href="/san-pham" onClick={() => setMobileMenuOpen(false)} className="py-1.5 hover:text-[#A35424]">
+            <Link href="/san-pham" onClick={() => setMobileMenuOpen(false)} className="py-2 px-3 rounded-lg hover:bg-slate-50 hover:text-emerald-600">
               Tất Cả Mẫu Hộp
             </Link>
             {categories.map((cat) => (
@@ -175,15 +176,15 @@ export function Header({ categories = [] }: HeaderProps) {
                 key={cat.id}
                 href={categoryHref(cat)}
                 onClick={() => setMobileMenuOpen(false)}
-                className="py-1.5 pl-2 border-l-2 border-[#DAC0A3] hover:border-[#A35424] hover:text-[#A35424]"
+                className="py-2 px-3 pl-4 rounded-lg hover:bg-emerald-50 hover:text-emerald-700 text-slate-600"
               >
                 {cat.name}
               </Link>
             ))}
-            <Link href="/tin-tuc" onClick={() => setMobileMenuOpen(false)} className="py-1.5 hover:text-[#A35424]">
+            <Link href="/tin-tuc" onClick={() => setMobileMenuOpen(false)} className="py-2 px-3 rounded-lg hover:bg-slate-50 hover:text-emerald-600">
               Tin Tức In Ấn
             </Link>
-            <Link href="/bao-gia" onClick={() => setMobileMenuOpen(false)} className="py-2 text-[#A35424] font-bold">
+            <Link href="/bao-gia" onClick={() => setMobileMenuOpen(false)} className="py-2.5 px-3 rounded-lg bg-emerald-50 text-emerald-700 font-semibold mt-2">
               Yêu Cầu Báo Giá Nhanh
             </Link>
           </div>

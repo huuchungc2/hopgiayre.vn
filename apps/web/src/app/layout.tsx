@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Be_Vietnam_Pro } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import './globals.css';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
@@ -8,10 +8,10 @@ import { LocalBusinessSchema } from '../components/seo/JsonLd';
 import { apiGet } from '../api/client';
 import type { Category } from '../types/domain';
 
-const beVietnamPro = Be_Vietnam_Pro({
-  weight: ['400', '500', '600', '700', '800', '900'],
+const inter = Inter({
   subsets: ['vietnamese', 'latin'],
   display: 'swap',
+  variable: '--font-sans',
 });
 
 export const metadata: Metadata = {
@@ -91,11 +91,11 @@ export default async function RootLayout({
   const categories = await getCategories();
 
   return (
-    <html lang="vi">
+    <html lang="vi" className={inter.variable}>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
-      <body className={`${beVietnamPro.className} min-h-screen flex flex-col bg-[#FAF7F2] text-[#1A1412] antialiased`}>
+      <body className={`${inter.className} min-h-screen flex flex-col bg-white text-slate-900 antialiased selection:bg-emerald-500 selection:text-white`}>
         <LocalBusinessSchema />
         <Header categories={categories} />
         <main className="flex-1">{children}</main>

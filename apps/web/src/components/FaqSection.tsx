@@ -28,7 +28,7 @@ const FAQ_ITEMS = [
   {
     question: 'Quy trình đặt in và thanh toán như thế nào?',
     answer:
-      'Bước 1: Bạn gửi kích thước (Dài x Rộng x Cao) và số lượng qua Zalo hoặc Form báo giá. Bước 2: Nhận báo giá sau 5 phút. Bước 3: Lên market thiết kế duyệt in. Bước 4: Đặt cọc 50% để xưởng chạy hàng. Bước 5: Kiểm tra hàng tận nơi và thanh toán phần còn lại khi nhận hàng.',
+      'Bước 1: Bạn gửi kích thước (Dài x Rộng x Cao) và số lượng qua Zalo hoặc Form báo giá. Bước 2: Nhận báo giá sau 5 phút. Bước 3: Lên maket thiết kế duyệt in. Bước 4: Đặt cọc 50% để xưởng chạy hàng. Bước 5: Kiểm tra hàng tận nơi và thanh toán phần còn lại khi nhận hàng.',
   },
 ];
 
@@ -40,18 +40,18 @@ export function FaqSection() {
   };
 
   return (
-    <section className="py-12 sm:py-16 bg-white border-t border-[#EADBC8]">
+    <section className="py-14 sm:py-20 bg-white border-t border-slate-200">
       <FaqSchema items={FAQ_ITEMS} />
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-10">
-          <span className="text-xs font-bold uppercase tracking-widest text-[#A35424] bg-[#FAF7F2] border border-[#DAC0A3] px-3 py-1 rounded-full inline-flex items-center gap-1.5">
+          <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 border border-emerald-200 px-3.5 py-1 rounded-full inline-flex items-center gap-1.5">
             <HelpCircle className="w-3.5 h-3.5" />
             Hỏi Đáp & Tư Vấn
           </span>
-          <h2 className="text-2xl sm:text-3xl font-black text-[#1A1412] mt-3">
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mt-3 tracking-tight">
             Những Câu Hỏi Thường Gặp Khi Đặt In Hộp Giấy
           </h2>
-          <p className="text-xs sm:text-sm text-[#7A522E] mt-2">
+          <p className="text-sm text-slate-600 mt-2">
             Giải đáp nhanh các thắc mắc về số lượng, giá cả, thời gian và chính sách in ấn tại xưởng.
           </p>
         </div>
@@ -62,22 +62,22 @@ export function FaqSection() {
             return (
               <div
                 key={index}
-                className="border border-[#EADBC8] rounded-2xl overflow-hidden transition-colors bg-[#FAF7F2]/60 hover:bg-[#FAF7F2]"
+                className="border border-slate-200/90 rounded-xl overflow-hidden transition-all bg-white"
               >
                 <button
                   type="button"
                   onClick={() => toggle(index)}
-                  className="w-full flex items-center justify-between p-4 sm:p-5 text-left text-sm sm:text-base font-extrabold text-[#1A1412] gap-4"
+                  className="w-full p-4 sm:p-5 text-left font-semibold text-slate-900 flex justify-between items-center gap-4 hover:text-emerald-700 transition-colors"
                 >
-                  <span>{item.question}</span>
+                  <span className="text-sm sm:text-base">{item.question}</span>
                   <ChevronDown
-                    className={`w-5 h-5 text-[#A35424] shrink-0 transition-transform duration-200 ${
-                      isOpen ? 'rotate-180' : ''
+                    className={`w-5 h-5 text-slate-400 shrink-0 transition-transform duration-200 ${
+                      isOpen ? 'rotate-180 text-emerald-600' : ''
                     }`}
                   />
                 </button>
                 {isOpen && (
-                  <div className="px-4 pb-5 sm:px-5 text-xs sm:text-sm text-[#5C3C1E] leading-relaxed border-t border-[#EADBC8]/40 pt-3">
+                  <div className="px-4 pb-5 sm:px-5 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
                     {item.answer}
                   </div>
                 )}

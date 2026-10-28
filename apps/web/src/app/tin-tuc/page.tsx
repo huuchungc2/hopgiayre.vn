@@ -23,15 +23,15 @@ export default async function BlogListPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-8">
       {/* Header */}
-      <div className="border-b border-[#EADBC8] pb-6">
-        <span className="text-xs font-bold uppercase tracking-widest text-[#A35424] inline-flex items-center gap-1.5">
+      <div className="border-b border-slate-200 pb-6">
+        <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 inline-flex items-center gap-1.5">
           <BookOpen className="w-3.5 h-3.5" />
           Kiến Thức Ngành In
         </span>
-        <h1 className="text-2xl sm:text-3xl font-black text-[#1A1412] mt-1 tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mt-1 tracking-tight">
           Cẩm Nang & Kinh Nghiệm Đặt In Hộp Giấy
         </h1>
-        <p className="text-xs text-[#7A522E] mt-1.5 max-w-2xl">
+        <p className="text-xs sm:text-sm text-slate-600 mt-1.5 max-w-2xl">
           Chia sẻ kinh nghiệm chọn chất liệu giấy, quy cách sóng carton, kỹ thuật in Offset và mẹo tiết kiệm chi phí đóng hàng.
         </p>
       </div>
@@ -44,7 +44,7 @@ export default async function BlogListPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-12 text-[#946C45] text-sm">
+        <div className="text-center py-12 text-slate-500 text-sm">
           Đang cập nhật bài viết mới...
         </div>
       )}

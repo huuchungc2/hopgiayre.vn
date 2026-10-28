@@ -11,9 +11,9 @@ export function BlogCard({ blog }: { blog: Blog }) {
   const displayDate = formatDateTime(blog.datetime);
 
   return (
-    <article className="group bg-white border border-[#EADBC8] rounded-2xl overflow-hidden shadow-soft hover:shadow-lifted hover:border-[#A35424]/40 transition-all duration-300 flex flex-col justify-between">
+    <article className="group bg-white border border-slate-200/90 rounded-xl overflow-hidden shadow-card hover:shadow-card-hover hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between">
       <div>
-        <Link href={href} className="block relative aspect-[16/10] bg-[#FAF7F2] overflow-hidden">
+        <Link href={href} className="block relative aspect-[16/10] bg-slate-50 overflow-hidden">
           <img
             src={imageUrl}
             alt={blog.title}
@@ -22,21 +22,21 @@ export function BlogCard({ blog }: { blog: Blog }) {
           />
         </Link>
 
-        <div className="p-5 space-y-2.5">
+        <div className="p-5 space-y-2">
           {displayDate && (
-            <div className="flex items-center gap-1.5 text-[11px] font-semibold text-[#946C45]">
-              <Calendar className="w-3.5 h-3.5 text-[#B89774]" />
+            <div className="flex items-center gap-1.5 text-[11px] font-medium text-slate-400">
+              <Calendar className="w-3.5 h-3.5 text-slate-400" />
               <span>{displayDate}</span>
             </div>
           )}
 
-          <Link href={href} className="block group-hover:text-[#A35424] transition-colors">
-            <h3 className="text-base font-extrabold text-[#1A1412] line-clamp-2 leading-snug">
+          <Link href={href} className="block group-hover:text-emerald-700 transition-colors">
+            <h3 className="text-base font-semibold text-slate-900 line-clamp-2 leading-snug">
               {blog.title}
             </h3>
           </Link>
 
-          <p className="text-xs text-[#7A522E] line-clamp-3 leading-relaxed">
+          <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
             {stripHtml(blog.summary, 140)}
           </p>
         </div>
@@ -45,9 +45,9 @@ export function BlogCard({ blog }: { blog: Blog }) {
       <div className="p-5 pt-0">
         <Link
           href={href}
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#A35424] group-hover:gap-2.5 transition-all"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 hover:text-emerald-700 group-hover:gap-2 transition-all"
         >
-          <span>Xem chi tiết</span>
+          <span>Đọc bài viết</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </Link>
       </div>
