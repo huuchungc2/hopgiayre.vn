@@ -33,9 +33,9 @@ export function createPublicRouter(): Router {
   router.get('/catalog/get_all', async (req, res, next) => {
     try {
       const showHome = cleanString(req.query.show_home, 20);
-      let where = 'WHERE enable = 1';
+      let where = "WHERE enable = 1 AND image IS NOT NULL AND TRIM(image) != ''";
       if (showHome === 'show') where += ' AND product_page = 1';
-      const rows = await query<any>(`SELECT * FROM category ${where} ORDER BY pos_index DESC, cid ASC`);
+      const rows = await query<any>(`SELECT * FROM category ${where} ORDER BY cid ASC`);
       const byParent = new Map<string, any[]>();
       for (const row of rows) {
         const parent = String(row.cparent || '').trim();

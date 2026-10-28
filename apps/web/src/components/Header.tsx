@@ -2,12 +2,19 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X, Phone, Search, Calculator, ShieldCheck, Sparkles, MessageCircle, PackageCheck } from 'lucide-react';
+import { Menu, X, Phone, Search, Calculator, ShieldCheck, Sparkles, MessageCircle, PackageCheck, Layers } from 'lucide-react';
 import type { Category } from '../types/domain';
 import { categoryHref } from '../utils/format';
 
 interface HeaderProps {
   categories?: Category[];
+}
+
+function cleanCategoryName(name: string): string {
+  return name
+    .replace(/^In\s+/i, '')
+    .replace(/,\s*Giá Rẻ/i, '')
+    .trim();
 }
 
 export function Header({ categories = [] }: HeaderProps) {
@@ -20,6 +27,11 @@ export function Header({ categories = [] }: HeaderProps) {
       window.location.href = `/san-pham?q=${encodeURIComponent(keyword.trim())}`;
     }
   };
+
+  // Only keep valid categories that have images and aren't all-caps product names
+  const validCategories = categories
+    .filter((cat) => cat.image && cat.image.trim() !== '')
+    .slice(0, 7);
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 transition-all">
@@ -64,7 +76,7 @@ export function Header({ categories = [] }: HeaderProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white font-black text-xl shadow-sm group-hover:scale-105 transition-transform">
+          <div className="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-black text-xl shadow-sm group-hover:scale-105 transition-transform">
             H
           </div>
           <div className="flex flex-col">
@@ -72,7 +84,7 @@ export function Header({ categories = [] }: HeaderProps) {
               HopGiay<span className="text-emerald-600">Re</span>.vn
             </span>
             <span className="text-[10px] tracking-wider text-slate-500 font-semibold uppercase mt-0.5">
-              Xưởng Bao Bì & Hộp Giấy TP.HCM
+              Xưởng Sản Xuất Bao Bì Giấy TP.HCM
             </span>
           </div>
         </Link>
@@ -122,19 +134,19 @@ export function Header({ categories = [] }: HeaderProps) {
       <nav className="hidden md:block border-t border-slate-100 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center gap-6 overflow-x-auto py-2.5 text-sm font-medium text-slate-600 no-scrollbar">
-            <Link href="/" className="hover:text-emerald-600 whitespace-nowrap transition-colors font-semibold text-slate-900">
+            <Link href="/" className="hover:text-emerald-600 whitespace-nowrap transition-colors font-semibold text-emerald-700">
               Trang Chủ
             </Link>
             <Link href="/san-pham" className="hover:text-emerald-600 whitespace-nowrap transition-colors">
               Tất Cả Sản Phẩm
             </Link>
-            {categories.slice(0, 7).map((cat) => (
+            {validCategories.map((cat) => (
               <Link
                 key={cat.id}
                 href={categoryHref(cat)}
                 className="hover:text-emerald-600 whitespace-nowrap transition-colors"
               >
-                {cat.name}
+                {cleanCategoryName(cat.name)}
               </Link>
             ))}
             <Link href="/tin-tuc" className="hover:text-emerald-600 whitespace-nowrap transition-colors">
@@ -171,14 +183,14 @@ export function Header({ categories = [] }: HeaderProps) {
             <Link href="/san-pham" onClick={() => setMobileMenuOpen(false)} className="py-2 px-3 rounded-lg hover:bg-slate-50 hover:text-emerald-600">
               Tất Cả Mẫu Hộp
             </Link>
-            {categories.map((cat) => (
+            {validCategories.map((cat) => (
               <Link
                 key={cat.id}
                 href={categoryHref(cat)}
                 onClick={() => setMobileMenuOpen(false)}
                 className="py-2 px-3 pl-4 rounded-lg hover:bg-emerald-50 hover:text-emerald-700 text-slate-600"
               >
-                {cat.name}
+                {cleanCategoryName(cat.name)}
               </Link>
             ))}
             <Link href="/tin-tuc" onClick={() => setMobileMenuOpen(false)} className="py-2 px-3 rounded-lg hover:bg-slate-50 hover:text-emerald-600">
