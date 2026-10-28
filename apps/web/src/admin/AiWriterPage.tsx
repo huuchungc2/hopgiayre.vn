@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { aiApi } from '../api/ai';
 import { getAdminToken } from '../api/admin';
-import { AdminLayout } from '../admin/AdminLayout';
+import { AdminLayout } from './AdminLayout';
 import type { BlogDraft, ProductDescriptionDraft, SeoDraft } from '../types/ai';
 
 type Tab = 'blog' | 'product' | 'seo';

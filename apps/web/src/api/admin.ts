@@ -9,15 +9,20 @@ function withToken(token: string, payload: Record<string, unknown> = {}) {
 export const ADMIN_TOKEN_KEY = 'hgr_admin_token';
 
 export function getAdminToken() {
+  if (typeof window === 'undefined') return '';
   return localStorage.getItem(ADMIN_TOKEN_KEY) || '';
 }
 
 export function setAdminToken(token: string) {
-  localStorage.setItem(ADMIN_TOKEN_KEY, token);
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(ADMIN_TOKEN_KEY, token);
+  }
 }
 
 export function clearAdminToken() {
-  localStorage.removeItem(ADMIN_TOKEN_KEY);
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem(ADMIN_TOKEN_KEY);
+  }
 }
 
 export const adminApi = {
