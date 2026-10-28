@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="iconTop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34D399" />
+      <stop offset="100%" stop-color="#10B981" />
+    </linearGradient>
+    <linearGradient id="iconLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="iconRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#047857" />
+      <stop offset="100%" stop-color="#064E3B" />
+    </linearGradient>
+    <linearGradient id="accentDot" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+  </defs>
+
+  <!-- Top Face -->
+  <polygon points="50,12 90,34 50,56 10,34" fill="url(#iconTop)" />
+  <!-- Left Face -->
+  <polygon points="10,34 50,56 50,92 10,70" fill="url(#iconLeft)" />
+  <!-- Right Face -->
+  <polygon points="50,56 90,34 90,70 50,92" fill="url(#iconRight)" />
+
+  <!-- Inner Seam Lines -->
+  <path d="M50,12 L50,56 M10,34 L50,56 L90,34" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.4" />
+  
+  <!-- Modern Accent -->
+  <circle cx="82" cy="28" r="5" fill="url(#accentDot)" />
+</svg>

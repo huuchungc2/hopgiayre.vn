@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 100" fill="none">
+  <!-- Isometric Box Icon -->
+  <g transform="translate(10, 10)">
+    <!-- Defs for gradients -->
+    <defs>
+      <linearGradient id="boxTop" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#34D399" />
+        <stop offset="100%" stop-color="#10B981" />
+      </linearGradient>
+      <linearGradient id="boxLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#059669" />
+        <stop offset="100%" stop-color="#047857" />
+      </linearGradient>
+      <linearGradient id="boxRight" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#047857" />
+        <stop offset="100%" stop-color="#064E3B" />
+      </linearGradient>
+      <linearGradient id="accentRibbon" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#F59E0B" />
+        <stop offset="100%" stop-color="#D97706" />
+      </linearGradient>
+      <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+        <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#059669" flood-opacity="0.25" />
+      </filter>
+    </defs>
+
+    <!-- Outer Box Faces -->
+    <!-- Top Face -->
+    <polygon points="40,5 75,23 40,41 5,23" fill="url(#boxTop)" filter="url(#shadow)" />
+    <!-- Left Face -->
+    <polygon points="5,23 40,41 40,75 5,57" fill="url(#boxLeft)" />
+    <!-- Right Face -->
+    <polygon points="40,41 75,23 75,57 40,75" fill="url(#boxRight)" />
+
+    <!-- Isometric Fold / Tape Accent -->
+    <polygon points="28,17 52,29 40,35 16,23" fill="white" opacity="0.25" />
+    <path d="M40,5 L40,41 M5,23 L40,41 L75,23" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.3" />
+
+    <!-- Precision Sparkle / Check -->
+    <circle cx="68" cy="18" r="4" fill="url(#accentRibbon)" />
+  </g>
+
+  <!-- Typography -->
+  <g transform="translate(105, 20)">
+    <!-- Brand Title -->
+    <text x="0" y="38" font-family="'Inter', 'Plus Jakarta Sans', system-ui, sans-serif" font-weight="900" font-size="34" letter-spacing="-1" fill="#0F172A">
+      HopGiay<tspan fill="#059669">Re</tspan><tspan font-weight="600" font-size="24" fill="#94A3B8">.vn</tspan>
+    </text>
+    <!-- Tagline -->
+    <text x="2" y="58" font-family="'Inter', 'Plus Jakarta Sans', system-ui, sans-serif" font-weight="700" font-size="10.5" letter-spacing="2.5" fill="#64748B" text-transform="uppercase">
+      XƯỞNG SẢN XUẤT BAO BÌ GIÁ TẬN GỐC
+    </text>
+  </g>
+</svg>
