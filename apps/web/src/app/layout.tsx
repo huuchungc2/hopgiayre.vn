@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Be_Vietnam_Pro } from 'next/font/google';
 import './globals.css';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
@@ -6,6 +7,12 @@ import { MobileBottomBar } from '../components/MobileBottomBar';
 import { LocalBusinessSchema } from '../components/seo/JsonLd';
 import { apiGet } from '../api/client';
 import type { Category } from '../types/domain';
+
+const beVietnamPro = Be_Vietnam_Pro({
+  weight: ['400', '500', '600', '700', '800', '900'],
+  subsets: ['vietnamese', 'latin'],
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://hopgiayre.vn'),
@@ -88,7 +95,7 @@ export default async function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
-      <body className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#1A1412] antialiased">
+      <body className={`${beVietnamPro.className} min-h-screen flex flex-col bg-[#FAF7F2] text-[#1A1412] antialiased`}>
         <LocalBusinessSchema />
         <Header categories={categories} />
         <main className="flex-1">{children}</main>
