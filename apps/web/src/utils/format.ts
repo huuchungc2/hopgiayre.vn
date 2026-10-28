@@ -1,6 +1,16 @@
 export const formatMoney = (value?: number) =>
   new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(value || 0);
 
+export function formatDateTime(val?: string | number): string {
+  if (!val) return '';
+  const num = Number(val);
+  if (!isNaN(num) && num > 1000000000) {
+    const d = new Date(num * 1000);
+    return d.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  }
+  return String(val);
+}
+
 export function extractIdFromSlug(input: string): string | null {
   const clean = input.split('?')[0].replace(/\/$/, '');
   const match = clean.match(/-(\d+)(?:\.html|\.htm)?$/i) || clean.match(/^(\d+)$/);

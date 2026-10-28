@@ -40,6 +40,9 @@ export default async function HomePage() {
   const data = await getHomeData();
   const banner = data.banners[0];
 
+  const featuredCategories = data.categories.filter((cat) => cat.image || cat.icon);
+  const displayCategories = (featuredCategories.length >= 4 ? featuredCategories : data.categories).slice(0, 8);
+
   return (
     <div className="space-y-12 sm:space-y-16 pb-12">
       {/* Hero Section */}
@@ -77,16 +80,14 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* Banner Image Preview if available */}
-            {banner?.image && (
-              <div className="rounded-2xl overflow-hidden border border-[#DAC0A3] shadow-soft max-w-md hidden sm:block">
-                <img
-                  src={assetUrl(banner.image)}
-                  alt={banner.title || 'Xưởng in hộp giấy'}
-                  className="w-full h-40 object-cover"
-                />
-              </div>
-            )}
+            {/* Banner Image Preview */}
+            <div className="rounded-3xl overflow-hidden border-2 border-[#EADBC8] shadow-soft max-w-lg hidden sm:block">
+              <img
+                src={assetUrl(banner?.image || 'upload/imgbanner/in-hop-giay.webp')}
+                alt={banner?.title || 'Xưởng in hộp giấy HopGiayRe.vn'}
+                className="w-full h-52 object-cover"
+              />
+            </div>
           </div>
 
           {/* Right Column: Instant Calculator / Quote Widget */}
@@ -117,7 +118,7 @@ export default async function HomePage() {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-          {data.categories.slice(0, 8).map((cat) => (
+          {displayCategories.map((cat) => (
             <Link
               key={cat.id}
               href={categoryHref(cat)}

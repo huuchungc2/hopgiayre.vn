@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { hopgiayreApi } from '../../../api/hopgiayre';
 import { assetUrl } from '../../../api/client';
-import { extractIdFromSlug, stripHtml } from '../../../utils/format';
+import { extractIdFromSlug, formatDateTime, stripHtml } from '../../../utils/format';
 import { JsonLd } from '../../../components/seo/JsonLd';
 import { QuickQuoteWidget } from '../../../components/QuickQuoteWidget';
 import { Calendar, ChevronRight, User } from 'lucide-react';
@@ -103,7 +103,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               {blog.datetime && (
                 <span className="flex items-center gap-1">
                   <Calendar className="w-3.5 h-3.5 text-[#B89774]" />
-                  {blog.datetime}
+                  {formatDateTime(blog.datetime)}
                 </span>
               )}
             </div>

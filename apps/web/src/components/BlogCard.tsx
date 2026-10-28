@@ -2,12 +2,13 @@ import React from 'react';
 import Link from 'next/link';
 import type { Blog } from '../types/domain';
 import { assetUrl } from '../api/client';
-import { blogHref, stripHtml } from '../utils/format';
+import { blogHref, formatDateTime, stripHtml } from '../utils/format';
 import { Calendar, ArrowRight } from 'lucide-react';
 
 export function BlogCard({ blog }: { blog: Blog }) {
   const href = blogHref(blog);
   const imageUrl = assetUrl(blog.image, '/images/logo.svg');
+  const displayDate = formatDateTime(blog.datetime);
 
   return (
     <article className="group bg-white border border-[#EADBC8] rounded-2xl overflow-hidden shadow-soft hover:shadow-lifted hover:border-[#A35424]/40 transition-all duration-300 flex flex-col justify-between">
@@ -22,10 +23,10 @@ export function BlogCard({ blog }: { blog: Blog }) {
         </Link>
 
         <div className="p-5 space-y-2.5">
-          {blog.datetime && (
+          {displayDate && (
             <div className="flex items-center gap-1.5 text-[11px] font-semibold text-[#946C45]">
               <Calendar className="w-3.5 h-3.5 text-[#B89774]" />
-              <span>{blog.datetime}</span>
+              <span>{displayDate}</span>
             </div>
           )}
 
